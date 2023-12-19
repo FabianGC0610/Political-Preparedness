@@ -7,4 +7,9 @@
     <string name="home_upcoming_elections_button_text">Upcoming elections</string>
     <string name="home_representatives_button_text">Find my representatives</string>
 
+    <!-- Election Screen -->
+    <string name="election_back_arrow_button_content_description">Navigate back button</string>
+    <string name="election_upcoming_elections_header_text">Upcoming Elections</string>
+    <string name="election_saved_elections_header_text">Saved Elections</string>
+
 </resources>

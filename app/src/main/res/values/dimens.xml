@@ -16,7 +16,13 @@
     <dimen name="margin_x_large">32dp</dimen>
     <dimen name="margin_xx_large">48dp</dimen>
 
+    <!-- Text Sizes -->
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_normal">16sp</dimen>
+    <dimen name="text_size_large">24sp</dimen>
+
     <!-- Objects -->
     <dimen name="home_button_height_size">64dp</dimen>
+    <dimen name="election_back_arrow_button_size">32dp</dimen>
 
 </resources>
