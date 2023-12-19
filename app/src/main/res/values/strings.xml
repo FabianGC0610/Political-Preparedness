@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Political Preparedness</string>
+
+    <!-- Home Screen -->
+    <string name="home_logo_content_description">Political preparedness home logo</string>
+    <string name="home_upcoming_elections_button_text">Upcoming elections</string>
+    <string name="home_representatives_button_text">Find my representatives</string>
+
+</resources>
