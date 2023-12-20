@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="election"
+            type="com.example.android.politicalpreparedness.network.models.Election" />
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_medium"
+        android:layout_marginVertical="@dimen/margin_small"
+        android:backgroundTint="@color/colorAccent"
+        app:cardCornerRadius="@dimen/corner_radius_medium"
+        app:cardElevation="@dimen/elevation_medium">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/election_name"
+                style="@style/general_title_text_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@{election.name}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Wisconsin Presidential Primary Election" />
+
+            <TextView
+                android:id="@+id/election_date"
+                style="@style/general_text_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@{election.electionDay.toString()}"
+                app:layout_constraintEnd_toEndOf="@+id/election_name"
+                app:layout_constraintStart_toStartOf="@+id/election_name"
+                app:layout_constraintTop_toBottomOf="@+id/election_name"
+                tools:text="Tue Apr 07 00:00:00 EDT 2020" />
+
+            <TextView
+                android:id="@+id/election_state"
+                style="@style/general_subtitle_text_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@{election.division.state}"
+                app:layout_constraintBottom_toTopOf="@+id/base"
+                app:layout_constraintEnd_toEndOf="@+id/election_date"
+                app:layout_constraintStart_toStartOf="@+id/election_date"
+                app:layout_constraintTop_toBottomOf="@+id/election_date"
+                tools:text="Texas" />
+
+            <LinearLayout
+                android:id="@+id/base"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/upcoming_election_item_base_size"
+                android:background="@color/colorPrimary"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

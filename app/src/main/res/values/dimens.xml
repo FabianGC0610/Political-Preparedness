@@ -7,6 +7,11 @@
     <dimen name="corner_radius_medium">16dp</dimen>
     <dimen name="corner_radius_large">24dp</dimen>
 
+    <!-- Elevation -->
+    <dimen name="elevation_small">8dp</dimen>
+    <dimen name="elevation_medium">16dp</dimen>
+    <dimen name="elevation_large">24dp</dimen>
+
     <!-- Margins -->
     <dimen name="margin_xx_small">2dp</dimen>
     <dimen name="margin_x_small">4dp</dimen>
@@ -16,6 +21,11 @@
     <dimen name="margin_x_large">32dp</dimen>
     <dimen name="margin_xx_large">48dp</dimen>
 
+    <!-- Paddings -->
+    <dimen name="padding_small">2</dimen>
+    <dimen name="padding_medium">4</dimen>
+    <dimen name="padding_large">8</dimen>
+
     <!-- Text Sizes -->
     <dimen name="text_size_small">12sp</dimen>
     <dimen name="text_size_normal">16sp</dimen>
@@ -24,5 +34,8 @@
     <!-- Objects -->
     <dimen name="home_button_height_size">64dp</dimen>
     <dimen name="election_back_arrow_button_size">32dp</dimen>
+    <dimen name="upcoming_election_item_base_size">8dp</dimen>
+    <dimen name="representative_image_size">72dp</dimen>
+    <dimen name="link_icon_size">40dp</dimen>
 
 </resources>

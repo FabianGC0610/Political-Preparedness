@@ -12,4 +12,15 @@
     <string name="election_upcoming_elections_header_text">Upcoming Elections</string>
     <string name="election_saved_elections_header_text">Saved Elections</string>
 
+    <!-- Representatives Screen -->
+    <string name="representatives_search_title">Representative Search</string>
+    <string name="representatives_address_line_one_hint">Address Line 1</string>
+    <string name="representatives_address_line_two_hint">Address Line 2</string>
+    <string name="representatives_city_hint">City</string>
+    <string name="representatives_zip_hint">Zip</string>
+    <string name="representatives_find_button_title">Find my representatives</string>
+    <string name="representatives_use_location_button_title">Use my location</string>
+    <string name="representatives_list_title">My Representatives</string>
+    <string name="representatives_list_placeholder_text">No representatives at the moment</string>
+
 </resources>
