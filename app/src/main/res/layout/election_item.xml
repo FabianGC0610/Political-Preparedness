@@ -9,6 +9,10 @@
             name="election"
             type="com.example.android.politicalpreparedness.network.models.Election" />
 
+        <variable
+            name="clickListener"
+            type="com.example.android.politicalpreparedness.election.adapter.ElectionListener" />
+
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -17,6 +21,7 @@
         android:layout_marginHorizontal="@dimen/margin_medium"
         android:layout_marginVertical="@dimen/margin_small"
         android:backgroundTint="@color/colorAccent"
+        android:onClick="@{() -> clickListener.onClick(election)}"
         app:cardCornerRadius="@dimen/corner_radius_medium"
         app:cardElevation="@dimen/elevation_medium">
 

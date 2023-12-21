@@ -23,4 +23,13 @@
     <string name="representatives_list_title">My Representatives</string>
     <string name="representatives_list_placeholder_text">No representatives at the moment</string>
 
+    <!-- Representative Item -->
+    <string name="representative_image_content_description">Representative image</string>
+    <string name="representative_web_icon_content_description">Web icon</string>
+    <string name="representative_facebook_icon_content_description">Facebook icon</string>
+    <string name="representative_twitter_icon_content_description">Twitter icon</string>
+
+    <!-- Errors -->
+    <string name="location_required_error">Location services must be enabled to find representatives by your location</string>
+
 </resources>

@@ -7,7 +7,11 @@
 
         <variable
             name="representative"
-            type="com.example.android.politicalpreparedness.network.models.Official" />
+            type="com.example.android.politicalpreparedness.representative.model.Representative" />
+
+        <variable
+            name="clickListener"
+            type="com.example.android.politicalpreparedness.representative.adapter.RepresentativeListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -15,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_x_small"
         android:layout_marginVertical="@dimen/margin_small"
+        android:onClick="@{() -> clickListener.onClick(representative)}"
         app:cardCornerRadius="@dimen/corner_radius_medium"
         app:cardElevation="@dimen/elevation_medium">
 
@@ -29,10 +34,12 @@
                 android:layout_height="@dimen/representative_image_size"
                 android:layout_marginVertical="@dimen/margin_medium"
                 android:layout_marginStart="@dimen/margin_medium"
+                android:contentDescription="@string/representative_image_content_description"
                 android:padding="@dimen/padding_small"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:profileImage="@{representative.official.photoUrl}"
                 app:srcCompat="@drawable/ic_profile" />
 
             <TextView
@@ -40,6 +47,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_small"
+                android:text="@{representative.office.name}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_normal"
                 android:textStyle="bold"
@@ -56,6 +64,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_small"
+                android:text="@{representative.official.name}"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/text_size_normal"
                 app:layout_constraintBottom_toTopOf="@+id/representative_party"
@@ -68,6 +77,7 @@
                 android:id="@+id/representative_party"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:text="@{representative.official.party}"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/text_size_small"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -81,30 +91,39 @@
                 android:layout_width="@dimen/link_icon_size"
                 android:layout_height="@dimen/link_icon_size"
                 android:layout_marginEnd="@dimen/margin_small"
+                android:contentDescription="@string/representative_web_icon_content_description"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/representative_role"
-                app:srcCompat="@drawable/ic_twitter" />
+                app:srcCompat="@drawable/ic_twitter"
+                tools:visibility="visible" />
 
             <ImageView
                 android:id="@+id/facebook_image_link"
                 android:layout_width="@dimen/link_icon_size"
                 android:layout_height="@dimen/link_icon_size"
                 android:layout_marginEnd="@dimen/margin_small"
+                android:contentDescription="@string/representative_facebook_icon_content_description"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/twitter_image_link"
                 app:layout_constraintTop_toBottomOf="@id/representative_role"
-                app:srcCompat="@drawable/ic_facebook" />
+                app:srcCompat="@drawable/ic_facebook"
+                tools:visibility="visible" />
 
             <ImageView
                 android:id="@+id/www_image_link"
                 android:layout_width="@dimen/link_icon_size"
                 android:layout_height="@dimen/link_icon_size"
                 android:layout_marginEnd="@dimen/margin_small"
+                android:contentDescription="@string/representative_twitter_icon_content_description"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/facebook_image_link"
                 app:layout_constraintTop_toBottomOf="@id/representative_role"
-                app:srcCompat="@drawable/ic_www" />
+                app:srcCompat="@drawable/ic_www"
+                tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -22,7 +22,10 @@
             android:layout_height="@dimen/election_back_arrow_button_size"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
+            android:background="@drawable/ripple_effect"
+            android:clickable="true"
             android:contentDescription="@string/election_back_arrow_button_content_description"
+            android:onClick="@{() -> viewModel.onNavigateBackEvent()}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_back_arrow" />
@@ -44,6 +47,7 @@
             android:autofillHints=""
             android:hint="@string/representatives_address_line_one_hint"
             android:inputType="textPostalAddress"
+            android:text="@={viewModel.addressLineOne}"
             android:textColorHint="@color/gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_title" />
@@ -55,6 +59,7 @@
             android:autofillHints=""
             android:hint="@string/representatives_address_line_two_hint"
             android:inputType="textPostalAddress"
+            android:text="@={viewModel.addressLineTwo}"
             android:textColorHint="@color/gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/address_line_1" />
@@ -66,12 +71,12 @@
             android:autofillHints=""
             android:hint="@string/representatives_city_hint"
             android:inputType="textPostalAddress"
+            android:text="@={viewModel.city}"
             android:textColorHint="@color/gray"
             app:layout_constraintEnd_toStartOf="@id/state"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/address_line_2" />
 
-        <!-- TODO: Add default values from provided resources  -->
         <Spinner
             android:id="@+id/state"
             android:layout_width="0dp"
@@ -81,7 +86,8 @@
             app:layout_constraintBottom_toBottomOf="@id/city"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/city"
-            app:layout_constraintTop_toTopOf="@id/city" />
+            app:layout_constraintTop_toTopOf="@id/city"
+            app:stateValue="@{viewModel.state}" />
 
         <EditText
             android:id="@+id/zip"
@@ -91,6 +97,7 @@
             android:hint="@string/representatives_zip_hint"
             android:inputType="number"
             android:maxLength="5"
+            android:text="@={viewModel.zip}"
             android:textColorHint="@color/gray"
             app:layout_constraintEnd_toEndOf="@id/city"
             app:layout_constraintStart_toStartOf="parent"
@@ -102,6 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_x_small"
             android:backgroundTint="@color/colorPrimaryDark"
+            android:onClick="@{() -> viewModel.onFindRepresentativeEvent()}"
             android:text="@string/representatives_find_button_title"
             app:cornerRadius="@dimen/corner_radius_small"
             app:layout_constraintTop_toBottomOf="@id/zip" />
@@ -112,6 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_x_small"
             android:backgroundTint="@color/colorPrimaryDark"
+            android:onClick="@{() -> viewModel.onUseLocationEvent()}"
             android:text="@string/representatives_use_location_button_title"
             app:cornerRadius="@dimen/corner_radius_small"
             app:layout_constraintTop_toBottomOf="@id/button_search" />
