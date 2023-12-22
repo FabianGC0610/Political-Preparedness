@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.android.politicalpreparedness.Application
+import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentElectionBinding
 import com.example.android.politicalpreparedness.election.adapter.ElectionListAdapter
 import com.example.android.politicalpreparedness.election.adapter.ElectionListener
@@ -26,6 +27,8 @@ class ElectionsFragment : Fragment() {
 
     private lateinit var upcomingElectionsAdapter: ElectionListAdapter
 
+    private lateinit var savedElectionsAdapter: ElectionListAdapter
+
     private lateinit var binding: FragmentElectionBinding
 
     override fun onCreateView(
@@ -38,31 +41,45 @@ class ElectionsFragment : Fragment() {
         binding.lifecycleOwner = this
 
         setupUpcomingElectionsListAdapter()
+        setupSavedElectionsListAdapter()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUpcomingElectionsStateObserver()
+        setupSavedElectionsStateObserver()
         setupNavigationBackEventObserver()
         setupUpcomingElectionClickedObserver()
+        viewModel.startGettingUpcomingElections()
+        viewModel.startGettingSavedElections()
     }
 
     private fun setupUpcomingElectionsListAdapter() {
         upcomingElectionsAdapter = ElectionListAdapter(
             ElectionListener { election ->
-                viewModel.onUpcomingElectionClickedEvent(election)
+                viewModel.onElectionClickedEvent(election)
                 binding.upcomingElectionsList.contentDescription = election.name
             },
         )
         binding.upcomingElectionsList.adapter = upcomingElectionsAdapter
     }
 
+    private fun setupSavedElectionsListAdapter() {
+        savedElectionsAdapter = ElectionListAdapter(
+            ElectionListener { election ->
+                viewModel.onElectionClickedEvent(election)
+                binding.upcomingElectionsList.contentDescription = election.name
+            },
+        )
+        binding.savedElectionsList.adapter = savedElectionsAdapter
+    }
+
     private fun setupUpcomingElectionClickedObserver() {
-        viewModel.upcomingElectionClickedEvent.observe(viewLifecycleOwner) { upcomingElectionClicked ->
-            if (upcomingElectionClicked != null) {
-                navToVoterInfo(upcomingElectionClicked)
-                viewModel.onUpcomingElectionClickedEventCompleted()
+        viewModel.electionClickedEvent.observe(viewLifecycleOwner) { electionClicked ->
+            if (electionClicked != null) {
+                navToVoterInfo(electionClicked)
+                viewModel.onElectionClickedEventCompleted()
             }
         }
     }
@@ -82,11 +99,35 @@ class ElectionsFragment : Fragment() {
                 ElectionsViewModel.UpcomingElectionsState.Success -> {
                     showUpcomingElectionsList()
                 }
+
                 ElectionsViewModel.UpcomingElectionsState.Error -> {
                     showUpcomingElectionsError()
                 }
+
                 ElectionsViewModel.UpcomingElectionsState.Loading -> {
                     showUpcomingElectionsLoading()
+                }
+            }
+        }
+    }
+
+    private fun setupSavedElectionsStateObserver() {
+        viewModel.savedElectionsState.observe(viewLifecycleOwner) { savedElectionsState ->
+            when (savedElectionsState) {
+                ElectionsViewModel.SavedElectionsState.Success -> {
+                    showSavedElectionsList()
+                }
+
+                ElectionsViewModel.SavedElectionsState.Error -> {
+                    showSavedElectionsError()
+                }
+
+                ElectionsViewModel.SavedElectionsState.Empty -> {
+                    showSavedElectionsEmptyError()
+                }
+
+                ElectionsViewModel.SavedElectionsState.Loading -> {
+                    showSavedElectionsLoading()
                 }
             }
         }
@@ -105,7 +146,35 @@ class ElectionsFragment : Fragment() {
     private fun showUpcomingElectionsError() {
         binding.upcomingElectionsList.visibility = View.GONE
         binding.upcomingElectionsProgressBar.visibility = View.GONE
-        // TODO: Add error visual
+        binding.upcomingElectionsPlaceholder.visibility = View.VISIBLE
+        binding.upcomingElectionsPlaceholder.text =
+            getString(R.string.elections_upcoming_elections_retrieving_error)
+    }
+
+    private fun showSavedElectionsList() {
+        binding.savedElectionsList.visibility = View.VISIBLE
+        binding.savedElectionsProgressBar.visibility = View.GONE
+    }
+
+    private fun showSavedElectionsLoading() {
+        binding.savedElectionsList.visibility = View.GONE
+        binding.savedElectionsProgressBar.visibility = View.VISIBLE
+    }
+
+    private fun showSavedElectionsError() {
+        binding.savedElectionsList.visibility = View.GONE
+        binding.savedElectionsProgressBar.visibility = View.GONE
+        binding.savedElectionsPlaceholder.visibility = View.VISIBLE
+        binding.savedElectionsPlaceholder.text =
+            getString(R.string.elections_saved_elections_retrieving_error)
+    }
+
+    private fun showSavedElectionsEmptyError() {
+        binding.savedElectionsList.visibility = View.GONE
+        binding.savedElectionsProgressBar.visibility = View.GONE
+        binding.savedElectionsPlaceholder.visibility = View.VISIBLE
+        binding.savedElectionsPlaceholder.text =
+            getString(R.string.elections_saved_elections_empty_error)
     }
 
     private fun navToVoterInfo(election: Election) {

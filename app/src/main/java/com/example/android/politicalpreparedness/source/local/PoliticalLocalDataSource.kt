@@ -30,7 +30,7 @@ class PoliticalLocalDataSource(
             return@withContext if (election != null) {
                 Result.Success(election)
             } else {
-                Result.Error("Election not found!")
+                Result.Error(ELECTION_NOT_FOUND)
             }
         } catch (e: Exception) {
             return@withContext Result.Error(e.message ?: "Error retrieving election")
@@ -43,5 +43,9 @@ class PoliticalLocalDataSource(
 
     override suspend fun deleteAllElections() = withContext(ioDispatcher) {
         electionDao.deleteAllElections()
+    }
+
+    companion object {
+        const val ELECTION_NOT_FOUND = "Election not found!"
     }
 }

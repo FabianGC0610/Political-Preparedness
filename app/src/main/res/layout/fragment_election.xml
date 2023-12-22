@@ -75,6 +75,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/upcoming_elections_header" />
 
+        <TextView
+            android:id="@+id/upcoming_elections_placeholder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginHorizontal="@dimen/margin_medium"
+            android:textSize="@dimen/text_size_normal"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@id/saved_elections_header_division"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/upcoming_elections_header" />
+
         <LinearLayout
             android:id="@+id/saved_elections_header_division"
             android:layout_width="match_parent"
@@ -107,8 +122,34 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/saved_elections_header"
+            app:listUpcomingElections="@{viewModel.savedElections}"
             tools:itemCount="2"
             tools:listitem="@layout/election_item" />
+
+        <ProgressBar
+            android:id="@+id/saved_elections_progress_bar"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/saved_elections_header" />
+
+        <TextView
+            android:id="@+id/saved_elections_placeholder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginHorizontal="@dimen/margin_medium"
+            android:textSize="@dimen/text_size_normal"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/saved_elections_header" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

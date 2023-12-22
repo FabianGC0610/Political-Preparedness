@@ -35,10 +35,16 @@
     <string name="voter_info_state_ballot_text">Ballot Information</string>
     <string name="voter_info_state_correspondence_header_text">Mailing Address</string>
     <string name="voter_info_election_default_name_text">Election Information</string>
+    <string name="voter_info_election_followed_button_text">Unfollow election</string>
+    <string name="voter_info_election_unfollowed_button_text">Follow election</string>
 
     <!-- Errors -->
+    <string name="elections_upcoming_elections_retrieving_error">An error occurred when requesting the upcoming elections.</string>
+    <string name="elections_saved_elections_retrieving_error">An error occurred when requesting the saved elections.</string>
+    <string name="elections_saved_elections_empty_error">You haven\'t followed any election yet.</string>
     <string name="location_required_error">Location services must be enabled to find representatives by your location</string>
     <string name="voter_info_error_getting_data_error">An error occurred while loading the election information, please try again later.</string>
     <string name="voter_info_insufficient_data_error">The information provided is not enough to obtain the details of the Election.</string>
+    <string name="voter_info_db_error">An error has occurred with the verification of your election marker</string>
 
 </resources>

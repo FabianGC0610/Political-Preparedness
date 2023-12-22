@@ -12,6 +12,7 @@ import com.example.android.politicalpreparedness.Application
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentVoterInfoBinding
 import com.example.android.politicalpreparedness.network.models.Division
+import com.example.android.politicalpreparedness.utils.showToast
 
 class VoterInfoFragment : Fragment() {
 
@@ -38,12 +39,6 @@ class VoterInfoFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        // TODO: Populate voter info -- hide views without provided data.
-
-        /**
-         Hint: You will need to ensure proper data is provided from previous fragment.
-         */
-
         // TODO: Handle save button UI state
         // TODO: cont'd Handle save button clicks
         return binding.root
@@ -52,6 +47,8 @@ class VoterInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupCanStartGettingVoterInfoObserver()
+        setupElectionIsFollowed()
+        setupAnErrorOccurredWithDb()
         viewModel.validateReceivedData()
         setupVoterInfoObserver()
         setupVoterInfoStateObserver()
@@ -112,8 +109,27 @@ class VoterInfoFragment : Fragment() {
         viewModel.canStartGettingVoterInformation.observe(viewLifecycleOwner) { canStartGettingVoterInfo ->
             if (canStartGettingVoterInfo) {
                 viewModel.startGettingVoterInfo()
+                viewModel.getElectionSavedState()
             } else {
                 showInsufficientDataError()
+            }
+        }
+    }
+
+    private fun setupElectionIsFollowed() {
+        viewModel.electionIsFollowed.observe(viewLifecycleOwner) { electionIsFollowed ->
+            if (electionIsFollowed) {
+                binding.button.text = getString(R.string.voter_info_election_followed_button_text)
+            } else {
+                binding.button.text = getString(R.string.voter_info_election_unfollowed_button_text)
+            }
+        }
+    }
+
+    private fun setupAnErrorOccurredWithDb() {
+        viewModel.anErrorOccurredWithDb.observe(viewLifecycleOwner) { anErrorOccurred ->
+            if (anErrorOccurred) {
+                showToast(getString(R.string.voter_info_db_error), requireContext())
             }
         }
     }

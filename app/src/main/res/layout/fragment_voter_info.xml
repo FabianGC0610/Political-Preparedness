@@ -112,6 +112,7 @@
             android:layout_marginBottom="@dimen/margin_medium"
             android:backgroundTint="@color/colorPrimaryDark"
             app:cornerRadius="@dimen/corner_radius_medium"
+            android:onClick="@{() -> viewModel.onButtonClickedEvent()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

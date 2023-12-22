@@ -11,8 +11,8 @@ import kotlinx.coroutines.launch
 
 class ElectionsViewModel(private val repository: PoliticalRepository) : ViewModel() {
 
-    private val _upcomingElectionClickedEvent = MutableLiveData<Election?>()
-    val upcomingElectionClickedEvent: LiveData<Election?> get() = _upcomingElectionClickedEvent
+    private val _electionClickedEvent = MutableLiveData<Election?>()
+    val electionClickedEvent: LiveData<Election?> get() = _electionClickedEvent
 
     private val _navigateBackEvent = MutableLiveData<Boolean>()
     val navigateBackEvent: LiveData<Boolean> get() = _navigateBackEvent
@@ -23,11 +23,13 @@ class ElectionsViewModel(private val repository: PoliticalRepository) : ViewMode
     private val _upcomingElections = MutableLiveData<List<Election>>()
     val upcomingElections: LiveData<List<Election>> get() = _upcomingElections
 
-    init {
-        startGettingUpcomingElections()
-    }
+    private val _savedElectionsState = MutableLiveData<SavedElectionsState>()
+    val savedElectionsState: LiveData<SavedElectionsState> get() = _savedElectionsState
 
-    private fun startGettingUpcomingElections() {
+    private val _savedElections = MutableLiveData<List<Election>>()
+    val savedElections: LiveData<List<Election>> get() = _savedElections
+
+    fun startGettingUpcomingElections() {
         _upcomingElectionsState.value = UpcomingElectionsState.Loading
         viewModelScope.launch {
             val result = repository.getUpcomingElections()
@@ -40,12 +42,32 @@ class ElectionsViewModel(private val repository: PoliticalRepository) : ViewMode
         }
     }
 
-    fun onUpcomingElectionClickedEvent(election: Election) {
-        _upcomingElectionClickedEvent.value = election
+    fun startGettingSavedElections() {
+        _savedElectionsState.value = SavedElectionsState.Loading
+        viewModelScope.launch {
+            val result = repository.getAllElections()
+            if (result is Result.Success) {
+                _savedElectionsState.value = SavedElectionsState.Success
+                if (result.data.isEmpty()) {
+                    _savedElectionsState.value = SavedElectionsState.Empty
+                } else {
+                    _savedElections.value = result.data ?: emptyList()
+                    _savedElectionsState.value = SavedElectionsState.Success
+                }
+                _savedElections.value = result.data ?: emptyList()
+                _savedElectionsState.value = SavedElectionsState.Success
+            } else {
+                _savedElectionsState.value = SavedElectionsState.Error
+            }
+        }
     }
 
-    fun onUpcomingElectionClickedEventCompleted() {
-        _upcomingElectionClickedEvent.value = null
+    fun onElectionClickedEvent(election: Election) {
+        _electionClickedEvent.value = election
+    }
+
+    fun onElectionClickedEventCompleted() {
+        _electionClickedEvent.value = null
     }
 
     fun onNavigateBackEvent() {
@@ -60,6 +82,13 @@ class ElectionsViewModel(private val repository: PoliticalRepository) : ViewMode
         object Success : UpcomingElectionsState()
         object Error : UpcomingElectionsState()
         object Loading : UpcomingElectionsState()
+    }
+
+    sealed class SavedElectionsState {
+        object Success : SavedElectionsState()
+        object Empty : SavedElectionsState()
+        object Error : SavedElectionsState()
+        object Loading : SavedElectionsState()
     }
 
     // TODO: Create live data val for saved elections

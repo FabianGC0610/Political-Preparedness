@@ -9,6 +9,7 @@ import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
 import com.example.android.politicalpreparedness.repository.PoliticalRepository
 import com.example.android.politicalpreparedness.repository.Result
+import com.example.android.politicalpreparedness.source.local.PoliticalLocalDataSource
 import kotlinx.coroutines.launch
 import java.util.Date
 
@@ -26,6 +27,9 @@ class VoterInfoViewModel(
     private val _voterInfo = MutableLiveData<VoterInfoResponse>()
     val voterInfo: LiveData<VoterInfoResponse> get() = _voterInfo
 
+    private val _anErrorOccurredWithDb = MutableLiveData<Boolean>()
+    val anErrorOccurredWithDb: LiveData<Boolean> get() = _anErrorOccurredWithDb
+
     private val _voterInfoName = MutableLiveData<String?>()
     val voterInfoName: LiveData<String?> get() = _voterInfoName
 
@@ -34,6 +38,9 @@ class VoterInfoViewModel(
 
     private val _canShowStateHeader = MutableLiveData<Boolean>()
     val canShowStateHeader: LiveData<Boolean> get() = _canShowStateHeader
+
+    private val _electionIsFollowed = MutableLiveData<Boolean>()
+    val electionIsFollowed: LiveData<Boolean> get() = _electionIsFollowed
 
     private val _voterInfoLocationsLink = MutableLiveData<String?>()
     val voterInfoLocationsLink: LiveData<String?> get() = _voterInfoLocationsLink
@@ -75,6 +82,45 @@ class VoterInfoViewModel(
             } else {
                 _voterInfoState.value = VoterInfoState.Error
             }
+        }
+    }
+
+    fun getElectionSavedState() {
+        viewModelScope.launch {
+            val result = repository.getElection(electionId ?: _voterInfo.value?.election?.id ?: 1)
+            if (result is Result.Success) {
+                _electionIsFollowed.value = true
+                _anErrorOccurredWithDb.value = false
+            } else if (result is Result.Error) {
+                if (result.message == PoliticalLocalDataSource.ELECTION_NOT_FOUND) {
+                    _electionIsFollowed.value = false
+                    _anErrorOccurredWithDb.value = false
+                } else {
+                    _anErrorOccurredWithDb.value = true
+                }
+            }
+        }
+    }
+
+    fun onButtonClickedEvent() {
+        if (_electionIsFollowed.value == true) {
+            unfollowElection()
+        } else {
+            followElection()
+        }
+    }
+
+    private fun followElection() {
+        viewModelScope.launch {
+            repository.addElectionToSaved(_voterInfo.value?.election!!)
+            getElectionSavedState()
+        }
+    }
+
+    private fun unfollowElection() {
+        viewModelScope.launch {
+            repository.deleteElection(_voterInfo.value?.election?.id!!)
+            getElectionSavedState()
         }
     }
 
@@ -123,8 +169,6 @@ class VoterInfoViewModel(
         object Error : VoterInfoState()
         object Loading : VoterInfoState()
     }
-
-    // TODO: Add var and methods to support loading URLs
 
     // TODO: Add var and methods to save and remove elections to local database
     // TODO: cont'd -- Populate initial state of save button to reflect proper action based on election saved status
