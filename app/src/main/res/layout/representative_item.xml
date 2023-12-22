@@ -40,7 +40,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:profileImage="@{representative.official.photoUrl}"
-                app:srcCompat="@drawable/ic_profile" />
+                tools:srcCompat="@drawable/ic_profile" />
 
             <TextView
                 android:id="@+id/representative_role"

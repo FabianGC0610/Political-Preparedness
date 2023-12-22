@@ -138,11 +138,22 @@
             android:id="@+id/representatives_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:listRepresentatives="@{viewModel.representatives}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/representative_title"
             motion:itemCount="3"
             motion:listitem="@layout/representative_item" />
+
+        <ProgressBar
+            android:id="@+id/representatives_progress_bar"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/representative_title" />
 
         <TextView
             android:id="@+id/list_placeholder"

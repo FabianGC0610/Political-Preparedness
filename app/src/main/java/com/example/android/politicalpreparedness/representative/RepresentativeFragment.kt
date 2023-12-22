@@ -21,11 +21,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.android.politicalpreparedness.Application
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
 import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
 import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListener
+import com.example.android.politicalpreparedness.utils.showToast
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
@@ -40,10 +42,17 @@ private const val TAG = "RepresentativeFragment"
 class RepresentativeFragment : Fragment() {
 
     private val viewModel: RepresentativeViewModel by lazy {
-        ViewModelProvider(this)[(RepresentativeViewModel::class.java)]
+        ViewModelProvider(
+            this,
+            RepresentativeViewModelFactory(
+                (requireContext().applicationContext as Application).repository,
+            ),
+        )[(RepresentativeViewModel::class.java)]
     }
 
     private lateinit var binding: FragmentRepresentativeBinding
+
+    private lateinit var representativesAdapter: RepresentativeListAdapter
 
     private lateinit var statesArray: Array<String>
 
@@ -89,6 +98,8 @@ class RepresentativeFragment : Fragment() {
         setupAddressObserver()
         setupStateSpinnerAdapter()
         setInitialState()
+        setupRepresentativesStateObserver()
+        setupFieldsValidationObserver()
     }
 
     private fun setupPermissionGrantedObserver() {
@@ -104,6 +115,52 @@ class RepresentativeFragment : Fragment() {
             if (permissionActivated) {
                 getLocation()
                 hideKeyboard()
+            }
+        }
+    }
+
+    private fun setupRepresentativesStateObserver() {
+        viewModel.representativesState.observe(viewLifecycleOwner) { representativesState ->
+            when (representativesState) {
+                RepresentativeViewModel.RepresentativesState.Success -> {
+                    showRepresentativesList()
+                }
+
+                RepresentativeViewModel.RepresentativesState.Error -> {
+                    showRepresentativesError()
+                }
+
+                RepresentativeViewModel.RepresentativesState.Loading -> {
+                    showRepresentativesLoading()
+                }
+            }
+        }
+    }
+
+    private fun showRepresentativesList() {
+        binding.representativesList.visibility = View.VISIBLE
+        binding.representativesProgressBar.visibility = View.GONE
+    }
+
+    private fun showRepresentativesLoading() {
+        binding.representativesList.visibility = View.GONE
+        binding.representativesProgressBar.visibility = View.VISIBLE
+    }
+
+    private fun showRepresentativesError() {
+        binding.representativesList.visibility = View.GONE
+        binding.representativesProgressBar.visibility = View.GONE
+        binding.listPlaceholder.visibility = View.VISIBLE
+        binding.listPlaceholder.text =
+            getString(R.string.representatives_retrieving_error)
+    }
+
+    private fun setupFieldsValidationObserver() {
+        viewModel.fieldsValidation.observe(viewLifecycleOwner) { errorMessage ->
+            if (!errorMessage.isNullOrBlank()) {
+                showToast(errorMessage, requireContext())
+            } else {
+                viewModel.setStateCodeByName(viewModel.state.value ?: "", requireContext())
             }
         }
     }
@@ -138,6 +195,7 @@ class RepresentativeFragment : Fragment() {
         viewModel.findRepresentativeEvent.observe(viewLifecycleOwner) { findRepresentative ->
             if (findRepresentative) {
                 hideKeyboard()
+                viewModel.startGettingRepresentatives()
                 viewModel.onFindRepresentativeEventCompleted()
             }
         }
@@ -165,14 +223,14 @@ class RepresentativeFragment : Fragment() {
     }
 
     private fun setupRepresentativeListAdapter() {
-        val adapter = RepresentativeListAdapter(
+        representativesAdapter = RepresentativeListAdapter(
             RepresentativeListener { representative ->
                 viewModel.onRepresentativeClickedEvent(representative)
                 binding.representativesList.contentDescription =
                     representative.official.name
             },
         )
-        binding.representativesList.adapter = adapter
+        binding.representativesList.adapter = representativesAdapter
     }
 
     private fun checkLocationPermissions() {
@@ -200,6 +258,7 @@ class RepresentativeFragment : Fragment() {
                 location?.let {
                     val address = geoCodeLocation(it)
                     viewModel.saveAddress(address)
+                    viewModel.startGettingRepresentatives()
                 }
             }
     }

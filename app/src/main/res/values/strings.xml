@@ -40,6 +40,7 @@
 
     <!-- Errors -->
     <string name="elections_upcoming_elections_retrieving_error">An error occurred when requesting the upcoming elections.</string>
+    <string name="representatives_retrieving_error">An error occurred when requesting the representatives.</string>
     <string name="elections_saved_elections_retrieving_error">An error occurred when requesting the saved elections.</string>
     <string name="elections_saved_elections_empty_error">You haven\'t followed any election yet.</string>
     <string name="location_required_error">Location services must be enabled to find representatives by your location</string>

@@ -22,9 +22,9 @@
     <dimen name="margin_xx_large">48dp</dimen>
 
     <!-- Paddings -->
-    <dimen name="padding_small">2</dimen>
-    <dimen name="padding_medium">4</dimen>
-    <dimen name="padding_large">8</dimen>
+    <dimen name="padding_small">2dp</dimen>
+    <dimen name="padding_medium">4dp</dimen>
+    <dimen name="padding_large">8dp</dimen>
 
     <!-- Text Sizes -->
     <dimen name="text_size_small">12sp</dimen>

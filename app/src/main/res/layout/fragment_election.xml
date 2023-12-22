@@ -61,7 +61,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/upcoming_elections_header"
-            app:listUpcomingElections="@{viewModel.upcomingElections}"
+            app:listElections="@{viewModel.upcomingElections}"
             tools:itemCount="2"
             tools:listitem="@layout/election_item" />
 
@@ -122,7 +122,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/saved_elections_header"
-            app:listUpcomingElections="@{viewModel.savedElections}"
+            app:listElections="@{viewModel.savedElections}"
             tools:itemCount="2"
             tools:listitem="@layout/election_item" />
 

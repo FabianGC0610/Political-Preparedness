@@ -48,9 +48,6 @@ interface CivicsApiService {
     @GET("representatives")
     suspend fun getRepresentatives(
         @Query("address") address: String,
-        @Query("includeOffices") includeOffices: Boolean = true,
-        @Query("levels") levels: List<String>,
-        @Query("roles") roles: List<String>,
     ): Response<RepresentativeResponse>
 }
 

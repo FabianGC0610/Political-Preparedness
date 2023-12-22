@@ -39,16 +39,10 @@ class PoliticalPreparednessRepository(
 
     override suspend fun getRepresentatives(
         address: String,
-        includeOffices: Boolean,
-        levels: List<String>,
-        roles: List<String>,
     ): Result<List<Representative>> {
         return withContext(ioDispatcher) {
             remoteDataSource.getRepresentatives(
                 address,
-                includeOffices,
-                levels,
-                roles,
             )
         }
     }

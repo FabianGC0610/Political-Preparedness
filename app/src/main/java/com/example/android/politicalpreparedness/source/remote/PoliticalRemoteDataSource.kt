@@ -64,16 +64,10 @@ class PoliticalRemoteDataSource(
 
     override suspend fun getRepresentatives(
         address: String,
-        includeOffices: Boolean,
-        levels: List<String>,
-        roles: List<String>,
     ): Result<List<Representative>> = withContext(ioDispatcher) {
         return@withContext try {
             val response = civicsApiService.getRepresentatives(
                 address,
-                includeOffices,
-                levels,
-                roles,
             )
             if (response.isSuccessful) {
                 val representativeResponse = response.body()

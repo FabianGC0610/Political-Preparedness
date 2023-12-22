@@ -16,9 +16,6 @@ interface PoliticalRepository {
 
     suspend fun getRepresentatives(
         address: String,
-        includeOffices: Boolean = true,
-        levels: List<String>,
-        roles: List<String>,
     ): Result<List<Representative>>
 
     /**--------------------------Database----------------------------*/

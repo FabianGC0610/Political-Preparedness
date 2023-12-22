@@ -34,7 +34,6 @@ class RepresentativeViewHolder private constructor(private val binding: Represen
     fun bind(clickListener: RepresentativeListener, item: Representative) {
         binding.representative = item
         binding.clickListener = clickListener
-        binding.representativeImage.setImageResource(R.drawable.ic_profile)
 
         item.official.channels?.let { showSocialLinks(it) }
         item.official.urls?.let { showWWWLinks(it) }
