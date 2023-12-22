@@ -10,8 +10,8 @@
             type="com.example.android.politicalpreparedness.representative.RepresentativeViewModel" />
     </data>
 
-    <!-- TODO: Add motion scene to hide form on vertical scroll. -->
     <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motion_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutDescription="@xml/fragment_representative_scene">
@@ -30,118 +30,121 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_back_arrow" />
 
-        <TextView
-            android:id="@+id/search_title"
-            style="@style/representative_title_text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:text="@string/representatives_search_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/back_arrow_button" />
-
-        <EditText
-            android:id="@+id/address_line_1"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/representative_form"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints=""
-            android:hint="@string/representatives_address_line_one_hint"
-            android:inputType="textPostalAddress"
-            android:text="@={viewModel.addressLineOne}"
-            android:textColorHint="@color/gray"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/search_title" />
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/address_line_2"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:autofillHints=""
-            android:hint="@string/representatives_address_line_two_hint"
-            android:inputType="textPostalAddress"
-            android:text="@={viewModel.addressLineTwo}"
-            android:textColorHint="@color/gray"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/address_line_1" />
+            <TextView
+                android:id="@+id/search_title"
+                style="@style/representative_title_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@string/representatives_search_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/city"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:autofillHints=""
-            android:hint="@string/representatives_city_hint"
-            android:inputType="textPostalAddress"
-            android:text="@={viewModel.city}"
-            android:textColorHint="@color/gray"
-            app:layout_constraintEnd_toStartOf="@id/state"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/address_line_2" />
+            <EditText
+                android:id="@+id/address_line_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:hint="@string/representatives_address_line_one_hint"
+                android:inputType="textPostalAddress"
+                android:text="@={viewModel.addressLineOne}"
+                android:textColorHint="@color/gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/search_title" />
 
-        <Spinner
-            android:id="@+id/state"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:autofillHints=""
-            android:inputType="textPostalAddress"
-            app:layout_constraintBottom_toBottomOf="@id/city"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/city"
-            app:layout_constraintTop_toTopOf="@id/city"
-            app:stateValue="@{viewModel.state}" />
+            <EditText
+                android:id="@+id/address_line_2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:autofillHints=""
+                android:hint="@string/representatives_address_line_two_hint"
+                android:inputType="textPostalAddress"
+                android:text="@={viewModel.addressLineTwo}"
+                android:textColorHint="@color/gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/address_line_1" />
 
-        <EditText
-            android:id="@+id/zip"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:autofillHints=""
-            android:hint="@string/representatives_zip_hint"
-            android:inputType="number"
-            android:maxLength="5"
-            android:text="@={viewModel.zip}"
-            android:textColorHint="@color/gray"
-            app:layout_constraintEnd_toEndOf="@id/city"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/city" />
+            <EditText
+                android:id="@+id/city"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:hint="@string/representatives_city_hint"
+                android:inputType="textPostalAddress"
+                android:text="@={viewModel.city}"
+                android:textColorHint="@color/gray"
+                app:layout_constraintEnd_toStartOf="@id/state"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/address_line_2" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_x_small"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:onClick="@{() -> viewModel.onFindRepresentativeEvent()}"
-            android:text="@string/representatives_find_button_title"
-            app:cornerRadius="@dimen/corner_radius_small"
-            app:layout_constraintTop_toBottomOf="@id/zip" />
+            <Spinner
+                android:id="@+id/state"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:autofillHints=""
+                android:inputType="textPostalAddress"
+                app:layout_constraintBottom_toBottomOf="@id/city"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/city"
+                app:layout_constraintTop_toTopOf="@id/city"
+                app:stateValue="@{viewModel.state}" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_x_small"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:onClick="@{() -> viewModel.onUseLocationEvent()}"
-            android:text="@string/representatives_use_location_button_title"
-            app:cornerRadius="@dimen/corner_radius_small"
-            app:layout_constraintTop_toBottomOf="@id/button_search" />
+            <EditText
+                android:id="@+id/zip"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:hint="@string/representatives_zip_hint"
+                android:inputType="number"
+                android:maxLength="5"
+                android:text="@={viewModel.zip}"
+                android:textColorHint="@color/gray"
+                app:layout_constraintEnd_toEndOf="@id/city"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/city" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_x_small"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:onClick="@{() -> viewModel.onFindRepresentativeEvent()}"
+                android:text="@string/representatives_find_button_title"
+                app:cornerRadius="@dimen/corner_radius_small"
+                app:layout_constraintTop_toBottomOf="@id/zip" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_x_small"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:onClick="@{() -> viewModel.onUseLocationEvent()}"
+                android:text="@string/representatives_use_location_button_title"
+                app:cornerRadius="@dimen/corner_radius_small"
+                app:layout_constraintTop_toBottomOf="@id/button_search" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/representative_title"
             style="@style/representative_subtitle_text_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/representatives_list_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_location" />
+            android:text="@string/representatives_list_title" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/representatives_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:listRepresentatives="@{viewModel.representatives}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/representative_title"
+            app:listRepresentatives="@{viewModel.representatives}"
             motion:itemCount="3"
             motion:listitem="@layout/representative_item" />
 
@@ -149,11 +152,7 @@
             android:id="@+id/representatives_progress_bar"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/representative_title" />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/list_placeholder"
@@ -161,10 +160,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:text="@string/representatives_list_placeholder_text"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/representative_title"
-            motion:visibilityMode="ignore" />
+            android:visibility="gone" />
     </androidx.constraintlayout.motion.widget.MotionLayout>
 
 </layout>

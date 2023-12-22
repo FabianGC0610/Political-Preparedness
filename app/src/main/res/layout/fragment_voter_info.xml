@@ -49,8 +49,6 @@
             app:layout_constraintTop_toBottomOf="@id/election_date"
             app:setDynamicStateHeaderPresentation="@{viewModel.canShowStateHeader}" />
 
-        <!-- TODO: Add click binding to open web URL -->
-        <!-- TODO: Add visual styling and content -->
         <TextView
             android:id="@+id/state_locations"
             style="@style/link_text_style"
@@ -64,8 +62,6 @@
             app:layout_constraintTop_toBottomOf="@id/state_header"
             app:setDynamicPresentation="@{viewModel.voterInfoLocationsLink}" />
 
-        <!-- TODO: Add click binding to open web URL -->
-        <!-- TODO: Add visual styling and content -->
         <TextView
             android:id="@+id/state_ballot"
             style="@style/link_text_style"

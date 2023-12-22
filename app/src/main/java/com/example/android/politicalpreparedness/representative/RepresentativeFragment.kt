@@ -34,7 +34,6 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
-import java.lang.Exception
 import java.util.Locale
 
 private const val TAG = "RepresentativeFragment"
@@ -81,8 +80,6 @@ class RepresentativeFragment : Fragment() {
         binding.lifecycleOwner = this
 
         setupRepresentativeListAdapter()
-
-        // TODO: Populate Representative adapter
 
         return binding.root
     }
@@ -185,7 +182,6 @@ class RepresentativeFragment : Fragment() {
     private fun setupRepresentativeClickedEventObserver() {
         viewModel.representativeClickedEvent.observe(viewLifecycleOwner) { representative ->
             representative?.let {
-                // TODO: Add new screen and navigation action for representative details
                 viewModel.onRepresentativeClickedEventCompleted()
             }
         }
