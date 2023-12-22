@@ -29,7 +29,16 @@
     <string name="representative_facebook_icon_content_description">Facebook icon</string>
     <string name="representative_twitter_icon_content_description">Twitter icon</string>
 
+    <!-- Voter Info Screen -->
+    <string name="voter_info_state_header_text">Election Information</string>
+    <string name="voter_info_state_locations_text">Voting Locations</string>
+    <string name="voter_info_state_ballot_text">Ballot Information</string>
+    <string name="voter_info_state_correspondence_header_text">Mailing Address</string>
+    <string name="voter_info_election_default_name_text">Election Information</string>
+
     <!-- Errors -->
     <string name="location_required_error">Location services must be enabled to find representatives by your location</string>
+    <string name="voter_info_error_getting_data_error">An error occurred while loading the election information, please try again later.</string>
+    <string name="voter_info_insufficient_data_error">The information provided is not enough to obtain the details of the Election.</string>
 
 </resources>

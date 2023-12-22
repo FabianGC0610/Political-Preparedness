@@ -1,6 +1,7 @@
 package com.example.android.politicalpreparedness.repository
 
 import com.example.android.politicalpreparedness.network.models.Election
+import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
 import com.example.android.politicalpreparedness.representative.model.Representative
 import com.example.android.politicalpreparedness.source.local.IPoliticalLocalDataSource
 import com.example.android.politicalpreparedness.source.remote.IPoliticalRemoteDataSource
@@ -26,7 +27,7 @@ class PoliticalPreparednessRepository(
         address: String,
         id: Int,
         officialOnly: Boolean,
-    ): Result<Election> {
+    ): Result<VoterInfoResponse> {
         return withContext(ioDispatcher) {
             remoteDataSource.getVoterInfo(
                 address,

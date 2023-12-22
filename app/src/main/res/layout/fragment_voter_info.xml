@@ -23,7 +23,8 @@
             android:singleLine="true"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/ic_back_arrow"
-            app:title="Wisconsin Presidential Primary Election" />
+            app:setupToolbar="@{viewModel.voterInfoName}"
+            tools:title="Wisconsin Presidential Primary Election" />
 
         <TextView
             android:id="@+id/election_date"
@@ -32,6 +33,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/default_padding"
             app:layout_constraintTop_toBottomOf="@id/election_name"
+            app:setDynamicPresentation="@{viewModel.voterInfoDate}"
+            app:setDynamicText="@{viewModel.voterInfoDate}"
             tools:text="Tuesday, November 12, 2055" />
 
         <TextView
@@ -40,10 +43,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
-            android:text="Election Information"
+            android:text="@string/voter_info_state_header_text"
             app:layout_constraintEnd_toEndOf="@+id/election_date"
             app:layout_constraintStart_toStartOf="@id/election_date"
-            app:layout_constraintTop_toBottomOf="@id/election_date" />
+            app:layout_constraintTop_toBottomOf="@id/election_date"
+            app:setDynamicStateHeaderPresentation="@{viewModel.canShowStateHeader}" />
 
         <!-- TODO: Add click binding to open web URL -->
         <!-- TODO: Add visual styling and content -->
@@ -53,10 +57,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_x_small"
-            android:text="Voting Locations"
+            android:onClick="@{() -> viewModel.onOpenLocationsWebEvent()}"
+            android:text="@string/voter_info_state_locations_text"
             app:layout_constraintEnd_toEndOf="@+id/election_date"
             app:layout_constraintStart_toStartOf="@id/election_date"
-            app:layout_constraintTop_toBottomOf="@id/state_header" />
+            app:layout_constraintTop_toBottomOf="@id/state_header"
+            app:setDynamicPresentation="@{viewModel.voterInfoLocationsLink}" />
 
         <!-- TODO: Add click binding to open web URL -->
         <!-- TODO: Add visual styling and content -->
@@ -65,10 +71,12 @@
             style="@style/link_text_style"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Ballot Information"
+            android:onClick="@{() -> viewModel.onOpenBallotWebEvent()}"
+            android:text="@string/voter_info_state_ballot_text"
             app:layout_constraintEnd_toEndOf="@+id/election_date"
             app:layout_constraintStart_toStartOf="@id/election_date"
-            app:layout_constraintTop_toBottomOf="@id/state_locations" />
+            app:layout_constraintTop_toBottomOf="@id/state_locations"
+            app:setDynamicPresentation="@{viewModel.voterInfoBallotLink}" />
 
         <TextView
             android:id="@+id/state_correspondence_header"
@@ -76,10 +84,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
-            android:text="Mailing Address"
+            android:text="@string/voter_info_state_correspondence_header_text"
             app:layout_constraintEnd_toEndOf="@+id/election_date"
             app:layout_constraintStart_toStartOf="@id/election_date"
-            app:layout_constraintTop_toBottomOf="@id/state_ballot" />
+            app:layout_constraintTop_toBottomOf="@id/state_ballot"
+            app:setDynamicAddressPresentation="@{viewModel.voterInfoAddress}" />
 
         <TextView
             android:id="@+id/address"
@@ -91,6 +100,8 @@
             app:layout_constraintEnd_toEndOf="@+id/election_date"
             app:layout_constraintStart_toStartOf="@id/election_date"
             app:layout_constraintTop_toBottomOf="@id/state_correspondence_header"
+            app:setDynamicAddressPresentation="@{viewModel.voterInfoAddress}"
+            app:setDynamicAddressText="@{viewModel.voterInfoAddress}"
             tools:text="16 Wall Street, Tucson" />
 
         <com.google.android.material.button.MaterialButton
@@ -105,6 +116,31 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Follow election" />
+
+        <ProgressBar
+            android:id="@+id/voter_info_progress_bar"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/voter_info_placeholder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_medium"
+            android:textSize="@dimen/text_size_large"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

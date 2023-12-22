@@ -3,6 +3,7 @@ package com.example.android.politicalpreparedness.source.remote
 import com.example.android.politicalpreparedness.network.CivicsApiService
 import com.example.android.politicalpreparedness.network.models.Division
 import com.example.android.politicalpreparedness.network.models.Election
+import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
 import com.example.android.politicalpreparedness.repository.Result
 import com.example.android.politicalpreparedness.representative.model.Representative
 import kotlinx.coroutines.CoroutineDispatcher
@@ -35,7 +36,7 @@ class PoliticalRemoteDataSource(
         address: String,
         id: Int,
         officialOnly: Boolean,
-    ): Result<Election> = withContext(ioDispatcher) {
+    ): Result<VoterInfoResponse> = withContext(ioDispatcher) {
         return@withContext try {
             val response = civicsApiService.getVoterInfo(
                 address,
@@ -44,7 +45,14 @@ class PoliticalRemoteDataSource(
             )
             if (response.isSuccessful) {
                 val election =
-                    response.body()?.election ?: Election(1, "", Date(), Division("", "", ""))
+                    response.body() ?: VoterInfoResponse(
+                        Election(
+                            1,
+                            "",
+                            Date(),
+                            Division("", "", ""),
+                        ),
+                    )
                 Result.Success(election)
             } else {
                 Result.Error("API response error: ${response.code()}")
