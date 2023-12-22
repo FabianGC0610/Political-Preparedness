@@ -39,8 +39,6 @@ class VoterInfoFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        // TODO: Handle save button UI state
-        // TODO: cont'd Handle save button clicks
         return binding.root
     }
 
