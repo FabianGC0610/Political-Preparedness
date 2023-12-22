@@ -135,16 +135,22 @@ class RepresentativeFragment : Fragment() {
     }
 
     private fun showRepresentativesList() {
+        binding.buttonLocation.isEnabled = true
+        binding.buttonSearch.isEnabled = true
         binding.representativesList.visibility = View.VISIBLE
         binding.representativesProgressBar.visibility = View.GONE
     }
 
     private fun showRepresentativesLoading() {
+        binding.buttonLocation.isEnabled = false
+        binding.buttonSearch.isEnabled = false
         binding.representativesList.visibility = View.GONE
         binding.representativesProgressBar.visibility = View.VISIBLE
     }
 
     private fun showRepresentativesError() {
+        binding.buttonLocation.isEnabled = true
+        binding.buttonSearch.isEnabled = true
         binding.representativesList.visibility = View.GONE
         binding.representativesProgressBar.visibility = View.GONE
         binding.listPlaceholder.visibility = View.VISIBLE
