@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_medium"
-        android:layout_marginVertical="@dimen/margin_small"
+        android:layout_marginVertical="@dimen/margin_x_small"
         android:backgroundTint="@color/colorAccent"
         android:onClick="@{() -> clickListener.onClick(election)}"
         app:cardCornerRadius="@dimen/corner_radius_medium"
@@ -49,23 +49,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:text="@{election.electionDay.toString()}"
+                app:layout_constraintBottom_toTopOf="@+id/base"
                 app:layout_constraintEnd_toEndOf="@+id/election_name"
                 app:layout_constraintStart_toStartOf="@+id/election_name"
                 app:layout_constraintTop_toBottomOf="@+id/election_name"
                 tools:text="Tue Apr 07 00:00:00 EDT 2020" />
-
-            <TextView
-                android:id="@+id/election_state"
-                style="@style/general_subtitle_text_style"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:text="@{election.division.state}"
-                app:layout_constraintBottom_toTopOf="@+id/base"
-                app:layout_constraintEnd_toEndOf="@+id/election_date"
-                app:layout_constraintStart_toStartOf="@+id/election_date"
-                app:layout_constraintTop_toBottomOf="@+id/election_date"
-                tools:text="Texas" />
 
             <LinearLayout
                 android:id="@+id/base"

@@ -5,7 +5,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
-import java.util.*
+import java.util.Date
 
 @Entity(tableName = "election_table")
 data class Election(
