@@ -16,14 +16,7 @@ import com.example.android.politicalpreparedness.network.models.Election
 
 class ElectionsFragment : Fragment() {
 
-    private val viewModel: ElectionsViewModel by lazy {
-        ViewModelProvider(
-            this,
-            ElectionsViewModelFactory(
-                (requireContext().applicationContext as Application).repository,
-            ),
-        )[(ElectionsViewModel::class.java)]
-    }
+    private lateinit var viewModel: ElectionsViewModel
 
     private lateinit var upcomingElectionsAdapter: ElectionListAdapter
 
@@ -36,6 +29,12 @@ class ElectionsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+        viewModel = ViewModelProvider(
+            this,
+            ElectionsViewModelFactory(
+                (requireContext().applicationContext as Application).repository,
+            ),
+        )[(ElectionsViewModel::class.java)]
         binding = FragmentElectionBinding.inflate(inflater)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this

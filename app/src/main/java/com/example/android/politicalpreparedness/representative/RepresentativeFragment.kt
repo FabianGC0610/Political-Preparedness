@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.savedstate.SavedStateRegistryOwner
 import com.example.android.politicalpreparedness.Application
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
@@ -38,16 +39,9 @@ import java.util.Locale
 
 private const val TAG = "RepresentativeFragment"
 
-class RepresentativeFragment : Fragment() {
+class RepresentativeFragment : Fragment(), SavedStateRegistryOwner {
 
-    private val viewModel: RepresentativeViewModel by lazy {
-        ViewModelProvider(
-            this,
-            RepresentativeViewModelFactory(
-                (requireContext().applicationContext as Application).repository,
-            ),
-        )[(RepresentativeViewModel::class.java)]
-    }
+    private lateinit var viewModel: RepresentativeViewModel
 
     private lateinit var binding: FragmentRepresentativeBinding
 
@@ -74,10 +68,20 @@ class RepresentativeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+        viewModel = ViewModelProvider(
+            this,
+            RepresentativeViewModelFactory(
+                (requireContext().applicationContext as Application).repository,
+                this,
+            ),
+        )[(RepresentativeViewModel::class.java)]
+
         binding = FragmentRepresentativeBinding.inflate(inflater)
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+
+        onRestoreInstanceState(savedInstanceState)
 
         setupRepresentativeListAdapter()
 
@@ -97,6 +101,7 @@ class RepresentativeFragment : Fragment() {
         setInitialState()
         setupRepresentativesStateObserver()
         setupFieldsValidationObserver()
+        binding.executePendingBindings()
     }
 
     private fun setupPermissionGrantedObserver() {
@@ -328,4 +333,19 @@ class RepresentativeFragment : Fragment() {
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        viewModel.saveDataState()
+        outState.putInt(MOTION_LAYOUT_STATE_KEY, binding.motionLayout.currentState)
+    }
+
+    private fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            val motionLayoutState = savedInstanceState.getInt(MOTION_LAYOUT_STATE_KEY)
+            binding.motionLayout.transitionToState(motionLayoutState)
+        }
+    }
 }
+
+private const val MOTION_LAYOUT_STATE_KEY = "key_motion_layout_state"

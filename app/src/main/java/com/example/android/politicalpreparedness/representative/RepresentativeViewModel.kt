@@ -3,6 +3,7 @@ package com.example.android.politicalpreparedness.representative
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android.politicalpreparedness.R
@@ -12,7 +13,12 @@ import com.example.android.politicalpreparedness.repository.Result
 import com.example.android.politicalpreparedness.representative.model.Representative
 import kotlinx.coroutines.launch
 
-class RepresentativeViewModel(private val repository: PoliticalRepository) : ViewModel() {
+class RepresentativeViewModel(
+    private val repository: PoliticalRepository,
+    private val savedStateHandle: SavedStateHandle,
+) : ViewModel() {
+
+    private val REPRESENTATIVES_KEY = "representatives_key"
 
     private val _representativeClickedEvent = MutableLiveData<Representative?>()
     val representativeClickedEvent: LiveData<Representative?> get() = _representativeClickedEvent
@@ -50,6 +56,10 @@ class RepresentativeViewModel(private val repository: PoliticalRepository) : Vie
     val state = MutableLiveData<String>()
     private val stateCode = MutableLiveData<String>()
     val zip = MutableLiveData<String>()
+
+    init {
+        getDataStateSaved()
+    }
 
     fun startGettingRepresentatives() {
         if (validateFields()) {
@@ -165,6 +175,16 @@ class RepresentativeViewModel(private val repository: PoliticalRepository) : Vie
 
     fun onUseLocationEventCompleted() {
         _useLocationEvent.value = false
+    }
+
+    private fun getDataStateSaved() {
+        savedStateHandle.get<List<Representative>>(REPRESENTATIVES_KEY)?.let {
+            _representatives.value = it
+        }
+    }
+
+    fun saveDataState() {
+        savedStateHandle[REPRESENTATIVES_KEY] = _representatives.value
     }
 
     sealed class RepresentativesState {

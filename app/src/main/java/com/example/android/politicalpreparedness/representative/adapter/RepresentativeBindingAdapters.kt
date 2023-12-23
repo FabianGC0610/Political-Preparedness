@@ -1,9 +1,9 @@
 package com.example.android.politicalpreparedness.representative.adapter
 
-import android.net.Uri
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Spinner
+import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -14,7 +14,7 @@ import com.example.android.politicalpreparedness.representative.model.Representa
 @BindingAdapter("profileImage")
 fun fetchImage(view: ImageView, src: String?) {
     src?.let {
-        val uri = Uri.parse(it)
+        val uri = src.toUri().buildUpon().scheme("https").build()
         Glide.with(view)
             .load(uri)
             .placeholder(R.drawable.loading_animation)
